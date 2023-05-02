@@ -5,5 +5,12 @@
 {% endblock%}
 
 {% block body%}
-
+    <h1>Title</h1>
+    <ul>
+        {% for title in titles %}
+            <li>{{ title }}</li>
+        {% empty %}
+            <h2>None</h2>
+        {% endfor %}
+    </ul>
 {% endblock %}
