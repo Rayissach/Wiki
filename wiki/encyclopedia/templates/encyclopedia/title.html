@@ -1,4 +1,4 @@
-{% extends "enclopedia/layout.html" %}
+{% extends "encyclopedia/layout.html" %}
 
 {% block title%}
     Encyclopedia
@@ -7,10 +7,10 @@
 {% block body%}
     <h1>Title</h1>
     <ul>
-        {% for title in titles %}
+        {% if title  %}
             <li>{{ title }}</li>
-        {% empty %}
+        {% else %}
             <h2>None</h2>
-        {% endfor %}
+        {% endif %}
     </ul>
 {% endblock %}
