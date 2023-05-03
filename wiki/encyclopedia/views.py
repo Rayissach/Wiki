@@ -1,6 +1,7 @@
 from django import forms
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 from . import util
 
@@ -34,19 +35,18 @@ def search(request):
     if request.method == "POST":
         
         if form.is_valid():
-            # searched = form.cleaned_data['search']
-            # searched.append['search']
-            if form == titles:
-                return HttpResponseRedirect("/wiki/")
-        elif form.contains(titles):
-                return render(request, "encyclopedia/search.html", {
-                    "entries": titles
+            searched = form.cleaned_data['search']
+            if searched:
+                return HttpResponseRedirect(reverse("title", args=[searched] ))
+            # elif form.filters.contains(titles):
+            #     return render(request, "encyclopedia/search.html", {
+            #         "entries": titles
+            #     })
+            else:
+                return render(request, "encyclopedia/index.html", {
+                    "entries": titles,
+                    "form": SearchForm
                 })
-        else:
-            return render(request, "encyclopedia/index.html", {
-                "entries": titles,
-                "form": form
-            })
             
         
         # if form.is_valid():
@@ -54,8 +54,5 @@ def search(request):
         #     searched.append['search']
         #     return HttpResponseRedirect("/title.html")
     else:
-        return render(request, "encyclopedia/index.html", {
-            "form": form,
-            "queried": util.get_entry()
-        })
+        return HttpResponseRedirect(reverse("index"))
         
