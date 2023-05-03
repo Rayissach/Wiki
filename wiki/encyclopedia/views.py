@@ -30,10 +30,12 @@ def title(request, title):
 def search(request):
     if request.method == "POST":
         form = SearchForm(request.POST)
-        titles = util.get_entry(searched)
+        titles = util.get_entry(form)
         
-        if form == titles:
-            return HttpResponseRedirect("/title.html")
+        if form.is_valid():
+            if form == titles:
+                return HttpResponseRedirect("/wiki/")
+        elif:
         
         # if form.is_valid():
         #     searched = form.cleaned_data['search']
