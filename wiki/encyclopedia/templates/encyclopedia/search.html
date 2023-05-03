@@ -1,18 +1,15 @@
-{% extends "encyclopedia/layout.hmtl" %}
+{% extends "encyclopedia/layout.html" %}
 
 {% block title %}
     Search
 {% endblock %}
 
+
 {% block body %}
-    <h1>Titles</h1>
-    <ul>
-        {% for entry in entries %}
-            {% if entry %}
-                <li>{{ entry }}</li>
-            {% else %}
-                <h2>None</h2>
-            {% endif %}
-        {% endfor %}
-    </ul>
+    {% if title %}
+        <h1>Titles</h1>
+        <ul>
+
+        </ul>
+    {% endif %}
 {% endblock %}
