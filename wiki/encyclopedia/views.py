@@ -28,12 +28,14 @@ def title(request, title):
     })
 
 def search(request):
+    form = SearchForm(request.POST)
+    titles = util.get_entry(form)
+    
     if request.method == "POST":
-        form = SearchForm(request.POST)
-        titles = util.get_entry(form)
         
         if form.is_valid():
-            searched = form.cleaned_data['search']
+            # searched = form.cleaned_data['search']
+            # searched.append['search']
             if form == titles:
                 return HttpResponseRedirect("/wiki/")
         elif form.contains(titles):
@@ -51,9 +53,9 @@ def search(request):
         #     searched = form.cleaned_data['search']
         #     searched.append['search']
         #     return HttpResponseRedirect("/title.html")
-    
-    return render(request, "encyclopedia/index.html", {
-        "form": form,
-        "queried": util.get_entry()
-    })
+    else:
+        return render(request, "encyclopedia/index.html", {
+            "form": form,
+            "queried": util.get_entry()
+        })
         
