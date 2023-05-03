@@ -51,9 +51,9 @@ def search(request):
             #     })
             else:
                 title_list = util.list_entries()
-                print(searches)
-                print(title_list)
-                
+                # title_list = [x.lower() for x in title_l]
+                # print(title_list)
+
                 title_entries = [title_input for title_input in title_list if searches in title_list]
                 
                 # for title_input in title_list:

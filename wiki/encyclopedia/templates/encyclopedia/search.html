@@ -9,7 +9,11 @@
     {% if title %}
         <h1>Titles</h1>
         <ul>
-
+            {% for entry in title_entries %}
+                <li>{{ entry }}</li>
+            {% endfor %}
         </ul>
+    {% else %}
+        <h2>No entries similar to {{ title }} here</h2>
     {% endif %}
 {% endblock %}
