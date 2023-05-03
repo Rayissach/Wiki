@@ -1,5 +1,6 @@
 from django import forms
 from django.shortcuts import render
+from django.http import HttpResponseRedirect
 
 from . import util
 
@@ -29,6 +30,19 @@ def title(request, title):
 def search(request):
     if request.method == "POST":
         form = SearchForm(request.POST)
+        titles = util.get_entry(searched)
+        
+        if form == titles:
+            return HttpResponseRedirect("/title.html")
+        
+        # if form.is_valid():
+        #     searched = form.cleaned_data['search']
+        #     searched.append['search']
+        #     return HttpResponseRedirect("/title.html")
+        else:
+            return render(request, "encyclopedia/search.html", {
+                
+            })
     
     return render(request, "encyclopedia/index.html", {
         "form": form,
