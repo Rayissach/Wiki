@@ -39,42 +39,26 @@ def search(request):
         
         if form.is_valid():
             searched = form.cleaned_data['search']
-            print(searched)
             searches.append(searched)
+            
             if titles:
-                print(searches)
-                print(titles)
                 return HttpResponseRedirect(reverse("title", args=[searched] ))
-            # elif form.filters.contains(titles):
-            #     return render(request, "encyclopedia/search.html", {
-            #         "entries": titles
-            #     })
             else:
                 title_list = util.list_entries()
-                # title_list = [x.lower() for x in title_l]
-                # print(title_list)
-
-                title_entries = [title_input for title_input in title_list if searches in title_list]
+                title_entries = [title_input for title_input in title_list if searched in title_list]
                 
                 # for title_input in title_list:
                 #     if searched.lower() in title_list.lower() or title_list.lower() in searched.lower():
                 #         title_entries.append[title_input]
-                    
-                        
-                # return {"title_entries": title_entries}
-                        
-                
+                                  
                 return render(request, "encyclopedia/search.html", {
                     "title_entries": title_entries,
                     "form": SearchForm(),
                     "title": searches
                 })
-            
-        
-        # if form.is_valid():
-        #     searched = form.cleaned_data['search']
-        #     searched.append['search']
-        #     return HttpResponseRedirect("/title.html")
     else:
         return HttpResponseRedirect(reverse("index"))
+    
+if __name__=="__main__":
+    main()
         

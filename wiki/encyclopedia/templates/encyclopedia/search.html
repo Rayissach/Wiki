@@ -6,7 +6,10 @@
 
 
 {% block body %}
-    {% if title %}
+    <h1>Hello World</h1>
+    {{title}}
+    {{title_entries}}
+    {% comment %} {% if title %}
         <h1>Titles</h1>
         <ul>
             {% for entry in title_entries %}
@@ -15,5 +18,5 @@
         </ul>
     {% else %}
         <h2>No entries similar to {{ title }} here</h2>
-    {% endif %}
+    {% endif %} {% endcomment %}
 {% endblock %}
