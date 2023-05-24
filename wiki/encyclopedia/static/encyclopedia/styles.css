@@ -20,6 +20,8 @@ textarea {
 input, label {
     display: block;
     font-weight: 600;
+    margin-bottom: 0.5%;
+    font-size: larger;
 }
 
 .main {
@@ -29,8 +31,7 @@ input, label {
 .new-title {
     width: 80%;
     line-height: 25px;
-    font-size: 25px;
-    background-color: black;
+    margin-bottom: 15px;
 }
 
 
