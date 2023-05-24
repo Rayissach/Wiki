@@ -13,13 +13,26 @@ h1 {
 }
 
 textarea {
-    height: 90vh;
+    height: 60vh;
     width: 80%;
+}
+
+input, label {
+    display: block;
+    font-weight: 600;
 }
 
 .main {
     padding: 10px;
 }
+
+.new-title {
+    width: 80%;
+    line-height: 25px;
+    font-size: 25px;
+    background-color: black;
+}
+
 
 .search {
     width: 100%;

@@ -13,10 +13,20 @@ class SearchForm(forms.Form):
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-   
         self.fields['search'].widget.attrs['class'] = 'search'
         self.fields['search'].widget.attrs['placeholder'] = 'Search Encyclopedia'
         self.fields['search'].widget.attrs['name'] = 'q'
+        
+class CreateForm(forms.Form):
+    create_title = forms.CharField(label="Create New Title:", widget=forms.TextInput(attrs={'class': "new-title", 'placeholder': 'Title'}))
+    create_area = forms.CharField(label="Create New Form", widget=forms.Textarea(attrs={'class':'textarea', 'placeholder': 'Create New Entry Page'}))
+    
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.fields['create_area'].widget.attrs['class'] = 'new_title'
+    #     self.fields['create_area'].widget.attrs['placeholder'] = 'Create New Entry Page'
+    #     self.fields['create_title'].widget.attrs['placeholder'] = 'Title'
+    #     self.fields['create_title'].widget.attrs['class'] = 'textarea', 'modtext'
 
 
 def index(request):
@@ -59,6 +69,16 @@ def search(request):
     else:
         return HttpResponseRedirect(reverse("index"))
     
-if __name__=="__main__":
-    main()
+def create(request):
+    # form = CreateForm(request.POST)
+    
+    # if request.method == "POST":
+    #     if form.is_valid():
+    #         print("Hello World")
+            
+    # else: 
+    return render(request, "encyclopedia/new.html", {
+        "create_form": CreateForm(),
+        "form": SearchForm()
+    })
         
