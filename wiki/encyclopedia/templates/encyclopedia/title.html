@@ -5,12 +5,10 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Title</h1>
-    <ul>
-        {% if title  %}
-            <li>{{ title }}</li>
-        {% else %}
-            <h2>None</h2>
-        {% endif %}
+    {% if not titles  %}
+        <h2>None</h2>  
+    {% else %}
+        {{ titles |safe }}
+    {% endif %}
     </ul>
 {% endblock %}

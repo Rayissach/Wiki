@@ -36,9 +36,15 @@ def index(request):
     })
     
 def title(request, title):
-    return render(request, "encyclopedia/title.html", {
-        "titles": util.get_entry(title)
-    })
+    pre_titles = util.get_entry(title)
+    titles = markdowner.convert(pre_titles)
+    if titles:
+        return render(request, "encyclopedia/title.html", {
+            "titles": titles,
+            "form": SearchForm()
+        })
+    # else:
+    #     return render(request, )
 
 def search(request):
     form = SearchForm(request.POST)
