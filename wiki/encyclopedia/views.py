@@ -1,6 +1,6 @@
 from django import forms
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseNotFound
 from django.urls import reverse
 from markdown2 import Markdown
 
@@ -29,23 +29,24 @@ def index(request):
     data = util.list_entries()
     if "create_title" not in request.session:
         request.session["create_title"] = data
-        
+
     return render(request, "encyclopedia/index.html", {
-        "entries": request.session["create_title"],
+        # "entries": request.session["create_title"],
+        "entries": data,
         "form": form
     })
     
 def title(request, title):
     pre_titles = util.get_entry(title)
     titles = markdowner.convert(pre_titles)
-    if titles:
+    if not titles:
+        return HttpResponseNotFound("Page Does Not Exist")
+    else:
         return render(request, "encyclopedia/title.html", {
             "titles": titles,
             "form": SearchForm()
         })
-    # else:
-    #     return render(request, )
-
+        
 def search(request):
     form = SearchForm(request.POST)
     titles = util.get_entry(form)
@@ -82,7 +83,9 @@ def create(request):
             title = form.cleaned_data["create_title"]
             area = form.cleaned_data["create_area"]
             marked_area = markdowner.convert(area)
-            util.save_entry(title, marked_area)
+            created = util.save_entry(title, marked_area)
+            listed = util.list_entries()
+            listed.append(created)
             
             return HttpResponseRedirect(reverse("title", args=[title]))
         else:

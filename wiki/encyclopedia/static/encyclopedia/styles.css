@@ -24,6 +24,11 @@ input, label {
     font-size: larger;
 }
 
+.error {
+    display: block;
+    align-content: center;
+}
+
 .main {
     padding: 10px;
 }
