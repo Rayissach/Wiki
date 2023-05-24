@@ -2,9 +2,11 @@ from django import forms
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from markdown2 import Markdown
 
 from . import util
 
+markdowner = Markdown()
 # title_entries = []
 searches = []
 
@@ -20,19 +22,16 @@ class SearchForm(forms.Form):
 class CreateForm(forms.Form):
     create_title = forms.CharField(label="Create New Title:", widget=forms.TextInput(attrs={'class': "new-title", 'placeholder': 'Title'}))
     create_area = forms.CharField(label="Create New Form", widget=forms.Textarea(attrs={'class':'textarea', 'placeholder': 'Create New Entry Page'}))
-    
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     self.fields['create_area'].widget.attrs['class'] = 'new_title'
-    #     self.fields['create_area'].widget.attrs['placeholder'] = 'Create New Entry Page'
-    #     self.fields['create_title'].widget.attrs['placeholder'] = 'Title'
-    #     self.fields['create_title'].widget.attrs['class'] = 'textarea', 'modtext'
 
 
 def index(request):
     form = SearchForm()
+    data = util.list_entries()
+    if "create_title" not in request.session:
+        request.session["create_title"] = data
+        
     return render(request, "encyclopedia/index.html", {
-        "entries": util.list_entries(),
+        "entries": request.session["create_title"],
         "form": form
     })
     
@@ -70,15 +69,24 @@ def search(request):
         return HttpResponseRedirect(reverse("index"))
     
 def create(request):
-    # form = CreateForm(request.POST)
-    
-    # if request.method == "POST":
-    #     if form.is_valid():
-    #         print("Hello World")
-            
-    # else: 
-    return render(request, "encyclopedia/new.html", {
-        "create_form": CreateForm(),
-        "form": SearchForm()
-    })
+    if request.method == "POST":
+        form = CreateForm(request.POST)
         
+        if form.is_valid():
+            title = form.cleaned_data["create_title"]
+            area = form.cleaned_data["create_area"]
+            marked_area = markdowner.convert(area)
+            util.save_entry(title, marked_area)
+            
+            return HttpResponseRedirect(reverse("title", args=[title]))
+        else:
+            return render(request, "encyclopedia/new.html", {
+                "create_form": form
+            })
+    
+    else: 
+        return render(request, "encyclopedia/new.html", {
+            "create_form": CreateForm(),
+            "form": SearchForm()
+        })
+            
