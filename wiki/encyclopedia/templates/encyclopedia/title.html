@@ -10,7 +10,6 @@
     {% else %}
         {{ titles |safe }}
         <a href="{% url "update" title %}">Edit</a>
-        {% comment %} <a href="{% url 'update' title %}">Edit</a> {% endcomment %}
     {% endif %}
     </ul>
 {% endblock %}

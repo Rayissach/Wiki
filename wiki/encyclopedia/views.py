@@ -1,8 +1,9 @@
 from django import forms
-from django.shortcuts import render
-from django.http import HttpResponseRedirect, HttpResponseNotFound
+from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect, HttpResponseNotFound, Http404
 from django.urls import reverse
 from markdown2 import Markdown
+import random
 
 from . import util
 
@@ -37,16 +38,16 @@ def index(request):
     })
     
 def title(request, title):
+    if title not in util.list_entries():
+        raise Http404
     pre_titles = util.get_entry(title)
     titles = markdowner.convert(pre_titles)
-    if not titles:
-        return HttpResponseNotFound("Page Does Not Exist")
-    else:
-        return render(request, "encyclopedia/title.html", {
-            "titles": titles,
-            "title": title,
-            "form": SearchForm()
-        })
+
+    return render(request, "encyclopedia/title.html", {
+        "titles": titles,
+        "title": title,
+        "form": SearchForm()
+    })
         
 def search(request):
     form = SearchForm(request.POST)
@@ -119,3 +120,9 @@ def update(request, title):
             "form": SearchForm(),
             "title": title
         })
+
+def random_page(request):
+    pages = util.list_entries()
+    found = random.choice(pages)
+    return redirect("title", found)
+    

@@ -16,11 +16,6 @@
                     {% csrf_token %}
                     {{ form }}
                 </form>
-                {% comment %} <form>
-                    <input
-                     action="{% url 'search' %}" 
-                     class="search" type="text" method="post" name="q" placeholder="Search Encyclopedia">
-                </form> {% endcomment %}
                 <div>
                     <a href="{% url 'index' %}">Home</a>
                 </div>
@@ -28,7 +23,7 @@
                     <a href="{% url 'create' %}" >Create New Page</a>
                 </div>
                 <div>
-                    Random Page
+                    <a href="{% url 'random_page' %}">Random Page</a>
                 </div>
                 {% block nav %}
                 {% endblock %}
