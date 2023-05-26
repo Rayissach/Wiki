@@ -103,10 +103,9 @@ def create(request):
 def update(request, title):
     if request.method == "GET":
         entry = util.get_entry(title)
-        print(entry)
 
         return render(request, "encyclopedia/update.html", {
-            "update_form": CreateForm({"title": entry}),
+            "update_form": CreateForm({"create_title": title, "create_area": entry }),
             "form": SearchForm(),
             "title": title
         })
