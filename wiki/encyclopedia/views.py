@@ -83,8 +83,8 @@ def create(request):
         if form.is_valid():
             title = form.cleaned_data["create_title"]
             area = form.cleaned_data["create_area"]
-            marked_area = markdowner.convert(area)
-            created = util.save_entry(title, marked_area)
+            # marked_area = markdowner.convert(area)
+            created = util.save_entry(title, area)
             listed = util.list_entries()
             listed.append(created)
             
@@ -101,7 +101,17 @@ def create(request):
         })
         
 def update(request, title):
-    if request.method == "GET":
+    if request.method == "POST":
+        form = CreateForm(request.POST)
+
+        if form.is_valid():
+            update_title = form.cleaned_data["create_title"]
+            update_area = form.cleaned_data["create_area"]
+            
+            util.save_entry(update_title, update_area)
+            
+            return HttpResponseRedirect(reverse("title",args=[title]))
+    else:
         entry = util.get_entry(title)
 
         return render(request, "encyclopedia/update.html", {
