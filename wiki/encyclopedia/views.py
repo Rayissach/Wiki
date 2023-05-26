@@ -44,6 +44,7 @@ def title(request, title):
     else:
         return render(request, "encyclopedia/title.html", {
             "titles": titles,
+            "title": title,
             "form": SearchForm()
         })
         
@@ -98,4 +99,14 @@ def create(request):
             "create_form": CreateForm(),
             "form": SearchForm()
         })
-            
+        
+def update(request, title):
+    if request.method == "GET":
+        entry = util.get_entry(title)
+        print(entry)
+
+        return render(request, "encyclopedia/update.html", {
+            "update_form": CreateForm({"title": entry}),
+            "form": SearchForm(),
+            "title": title
+        })
