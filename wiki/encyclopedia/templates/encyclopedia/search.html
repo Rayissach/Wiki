@@ -4,19 +4,15 @@
     Search
 {% endblock %}
 
-
 {% block body %}
-    <h1>Hello World</h1>
-    {{title}}
-    {{title_entries}}
-    {% comment %} {% if title %}
-        <h1>Titles</h1>
-        <ul>
-            {% for entry in title_entries %}
-                <li>{{ entry }}</li>
-            {% endfor %}
-        </ul>
+    {% if found %}
+    <h2> Your results for {{ query }} are: </h2>
+    <ul>
+        {% for entries in found %}
+            <li><a href="{% url 'title' entries %}">{{entries}}</a></li>
+        {% endfor %}
+    </ul>
     {% else %}
-        <h2>No entries similar to {{ title }} here</h2>
-    {% endif %} {% endcomment %}
+        <h2> No entries found for {{query}} </h2>
+    {% endif %}
 {% endblock %}
