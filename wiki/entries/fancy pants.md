@@ -1,1 +1,1 @@
-bikini bottom
+sandy cheeks
