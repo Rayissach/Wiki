@@ -2,6 +2,7 @@ from django import forms
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, HttpResponseNotFound, Http404
 from django.urls import reverse
+from django.contrib import messages
 from markdown2 import Markdown
 import random
 
@@ -84,11 +85,19 @@ def create(request):
         if form.is_valid():
             title = form.cleaned_data["create_title"]
             area = form.cleaned_data["create_area"]
-            # marked_area = markdowner.convert(area)
-            created = util.save_entry(title, area)
-            listed = util.list_entries()
-            listed.append(created)
             
+            if title.lower() in [i.lower() for i in util.list_entries()]:
+                messages.warning(request, f"The page {title} already exists. Please choose a different title")
+                return render(request, "encyclopedia/new.html", {
+                "create_form": form
+            })
+                
+            else:
+                # marked_area = markdowner.convert(area)
+                created = util.save_entry(title, area)
+                listed = util.list_entries()
+                listed.append(created)
+
             return HttpResponseRedirect(reverse("title", args=[title]))
         else:
             return render(request, "encyclopedia/new.html", {
